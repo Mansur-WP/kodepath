@@ -4,9 +4,8 @@ import { ArrowRight, Compass, Lightbulb, Globe, Smartphone, Brain, Blocks, Serve
 import { languages } from "@/data/languages";
 import LanguageCard from "@/components/LanguageCard";
 
-// Deterministic daily pick — changes every 24 hours, same for all users on the same day
-const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % languages.length;
-const languageOfTheDay = languages[dayIndex];
+// Random pick on every visit/refresh
+const languageOfTheDay = languages[Math.floor(Math.random() * languages.length)];
 
 const whyLearnItems = [
   { icon: Globe, title: "Endless Opportunities", desc: "Every industry needs developers — from healthcare to entertainment." },
