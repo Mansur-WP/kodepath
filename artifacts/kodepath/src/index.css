@@ -155,7 +155,77 @@
 }
 
 .dark {
-  /* Light mode only per instructions */
+  --background: 222 47% 7%;
+  --foreground: 210 40% 96%;
+  --border: 217 33% 18%;
+
+  --card: 222 47% 10%;
+  --card-foreground: 210 40% 96%;
+  --card-border: 217 33% 18%;
+
+  --sidebar: 222 47% 10%;
+  --sidebar-foreground: 210 40% 96%;
+  --sidebar-border: 217 33% 18%;
+
+  --popover: 222 47% 10%;
+  --popover-foreground: 210 40% 96%;
+  --popover-border: 217 33% 18%;
+
+  --muted: 217 33% 15%;
+  --muted-foreground: 215 20% 60%;
+
+  --accent: 217 33% 15%;
+  --accent-foreground: 210 40% 96%;
+
+  --input: 217 33% 18%;
+  --button-outline: rgba(255,255,255, .08);
+  --badge-outline: rgba(255,255,255, .05);
+  --elevate-1: rgba(255,255,255, .03);
+  --elevate-2: rgba(255,255,255, .07);
+}
+
+/* ── Dark mode colour remapping ──────────────────────────────── */
+/* Rather than adding dark: variants to every component, we remap
+   the explicit Tailwind palette classes that this app uses. */
+
+.dark .bg-white             { background-color: hsl(222 47% 10%) !important; }
+.dark .bg-white\/80         { background-color: hsl(222 47% 10% / 0.85) !important; }
+.dark .bg-white\/90         { background-color: hsl(222 47% 10% / 0.9) !important; }
+.dark .bg-slate-50          { background-color: hsl(222 47% 7%) !important; }
+.dark .bg-slate-100         { background-color: hsl(217 33% 15%) !important; }
+.dark .bg-slate-200         { background-color: hsl(217 33% 18%) !important; }
+.dark .bg-slate-800         { background-color: hsl(217 33% 14%) !important; }
+.dark .bg-slate-900         { background-color: hsl(222 47% 6%) !important; }
+
+.dark .hover\:bg-slate-50:hover  { background-color: hsl(217 33% 13%) !important; }
+.dark .hover\:bg-slate-100:hover { background-color: hsl(217 33% 17%) !important; }
+.dark .hover\:bg-slate-200:hover { background-color: hsl(217 33% 20%) !important; }
+.dark .group:hover .group-hover\:bg-white\/20 { background-color: rgba(255,255,255,0.15) !important; }
+
+.dark .text-slate-900       { color: hsl(210 40% 95%) !important; }
+.dark .text-slate-800       { color: hsl(210 40% 88%) !important; }
+.dark .text-slate-700       { color: hsl(210 40% 78%) !important; }
+.dark .text-slate-600       { color: hsl(210 40% 63%) !important; }
+.dark .text-slate-500       { color: hsl(210 40% 52%) !important; }
+.dark .text-slate-400       { color: hsl(210 40% 42%) !important; }
+
+.dark .border-slate-100     { border-color: hsl(217 33% 18%) !important; }
+.dark .border-slate-200     { border-color: hsl(217 33% 22%) !important; }
+.dark .border-slate-300     { border-color: hsl(217 33% 27%) !important; }
+.dark .border-slate-800     { border-color: hsl(217 33% 15%) !important; }
+
+.dark .divide-slate-100 > * + * { border-color: hsl(217 33% 18%) !important; }
+
+/* Header / Navbar glass */
+.dark header                { background-color: hsl(222 47% 8% / 0.92) !important; border-color: hsl(217 33% 16%) !important; }
+
+/* Input fields */
+.dark input, .dark textarea { background-color: hsl(217 33% 13%) !important; border-color: hsl(217 33% 20%) !important; color: hsl(210 40% 92%) !important; }
+.dark input::placeholder    { color: hsl(215 20% 45%) !important; }
+
+/* Dot-grid hero: make dots visible in dark */
+.dark [style*="radial-gradient(circle, #cbd5e1"] {
+  background-image: radial-gradient(circle, #334155 1px, transparent 1px) !important;
 }
 
 @layer base {

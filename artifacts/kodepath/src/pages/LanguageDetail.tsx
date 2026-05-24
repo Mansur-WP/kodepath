@@ -2,7 +2,8 @@ import { useParams, Link } from "wouter";
 import { languages } from "@/data/languages";
 import { Badge } from "@/components/ui/badge";
 import { useBookmarks } from "@/hooks/useBookmarks";
-import { BookMarked, ExternalLink, ThumbsUp, ThumbsDown, GitPullRequest, ArrowLeft, ArrowLeftRight } from "lucide-react";
+import { useRoadmapProgress } from "@/hooks/useRoadmapProgress";
+import { BookMarked, ExternalLink, ThumbsUp, ThumbsDown, GitPullRequest, ArrowLeft, ArrowLeftRight, RotateCcw, CheckCircle2, Circle } from "lucide-react";
 import { motion } from "framer-motion";
 import NotFound from "@/pages/not-found";
 import CodeBlock from "@/components/CodeBlock";
@@ -15,6 +16,10 @@ export default function LanguageDetail() {
   if (!language) return <NotFound />;
 
   const bookmarked = isBookmarked(language.id);
+  const { completed, toggle: toggleStep, reset: resetProgress, percentComplete } = useRoadmapProgress(
+    language.id,
+    language.learningRoadmap.length
+  );
 
   return (
     <div className="min-h-screen bg-slate-50 pb-20">
@@ -135,31 +140,83 @@ export default function LanguageDetail() {
               </div>
             </div>
 
-            {/* Roadmap */}
+            {/* Roadmap — interactive checklist */}
             <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
-              <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <GitPullRequest size={24} className="text-primary" />
-                Beginner Roadmap
-              </h2>
-              <div className="space-y-0 relative before:absolute before:inset-y-4 before:left-6 before:w-0.5 before:bg-slate-100">
-                {language.learningRoadmap.map((step, i) => (
-                  <motion.div 
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    key={i} 
-                    className="relative flex items-center gap-6 py-4"
-                  >
-                    <div className="w-12 h-12 rounded-full bg-white border-4 border-slate-100 text-slate-500 font-bold flex items-center justify-center shrink-0 z-10 shadow-sm">
-                      {i + 1}
-                    </div>
-                    <div className="bg-slate-50 rounded-xl p-4 flex-1 border border-slate-100 text-slate-700 font-medium">
-                      {step}
-                    </div>
-                  </motion.div>
-                ))}
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                  <GitPullRequest size={24} className="text-primary" />
+                  Beginner Roadmap
+                </h2>
+                <button
+                  onClick={resetProgress}
+                  data-testid="btn-reset-roadmap"
+                  className="flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-slate-600 transition-colors px-2 py-1 rounded-lg hover:bg-slate-100"
+                >
+                  <RotateCcw size={12} /> Reset
+                </button>
               </div>
+
+              {/* Progress bar */}
+              <div className="mb-6">
+                <div className="flex justify-between text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">
+                  <span>{completed.size} of {language.learningRoadmap.length} steps completed</span>
+                  <span>{percentComplete}%</span>
+                </div>
+                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full rounded-full bg-gradient-to-r from-primary to-secondary"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${percentComplete}%` }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-3 relative before:absolute before:inset-y-4 before:left-[22px] before:w-0.5 before:bg-slate-100">
+                {language.learningRoadmap.map((step, i) => {
+                  const done = completed.has(i);
+                  return (
+                    <motion.button
+                      key={i}
+                      initial={{ opacity: 0, x: -16 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.06 }}
+                      onClick={() => toggleStep(i)}
+                      data-testid={`btn-roadmap-step-${i}`}
+                      className={`relative w-full flex items-center gap-4 py-3 text-left group transition-all`}
+                    >
+                      <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 z-10 border-4 transition-all ${
+                        done
+                          ? "bg-primary border-primary/20 text-white"
+                          : "bg-white border-slate-100 text-slate-400 group-hover:border-primary/30"
+                      }`}>
+                        {done
+                          ? <CheckCircle2 size={18} className="fill-white text-primary" />
+                          : <Circle size={16} />
+                        }
+                      </div>
+                      <div className={`flex-1 rounded-xl px-4 py-3.5 border transition-all ${
+                        done
+                          ? "bg-primary/5 border-primary/15 text-slate-400 line-through"
+                          : "bg-slate-50 border-slate-100 text-slate-700 group-hover:border-primary/20 group-hover:bg-primary/3"
+                      } font-medium text-sm`}>
+                        {step}
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+
+              {percentComplete === 100 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-6 p-4 bg-emerald-50 border border-emerald-100 rounded-2xl text-center"
+                >
+                  <p className="text-emerald-700 font-semibold">Roadmap complete! Time to build something real.</p>
+                </motion.div>
+              )}
             </div>
           </div>
 

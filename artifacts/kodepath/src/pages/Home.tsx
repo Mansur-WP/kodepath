@@ -1,8 +1,12 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { ArrowRight, Compass, Lightbulb, Globe, Smartphone, Brain, Blocks, Server, LayoutTemplate, Shield, Search } from "lucide-react";
+import { ArrowRight, Compass, Lightbulb, Globe, Smartphone, Brain, Blocks, Server, LayoutTemplate, Shield, Search, CalendarDays } from "lucide-react";
 import { languages } from "@/data/languages";
 import LanguageCard from "@/components/LanguageCard";
+
+// Deterministic daily pick — changes every 24 hours, same for all users on the same day
+const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % languages.length;
+const languageOfTheDay = languages[dayIndex];
 
 const whyLearnItems = [
   { icon: Globe, title: "Endless Opportunities", desc: "Every industry needs developers — from healthcare to entertainment." },
@@ -98,6 +102,58 @@ export default function Home() {
                   Take the Quiz
                 </div>
               </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Language of the Day */}
+      <section className="py-14 bg-white border-t border-slate-100">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative rounded-3xl overflow-hidden"
+            style={{ backgroundColor: languageOfTheDay.brandColor }}
+          >
+            {/* Radial glow */}
+            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_top_left,_white,_transparent)]" />
+            <div className="relative z-10 flex flex-col md:flex-row items-center gap-8 p-8 md:p-12">
+              {/* Left: badge + text */}
+              <div className="flex-1 text-white text-center md:text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/20 text-white/90 text-xs font-bold uppercase tracking-wider mb-4">
+                  <CalendarDays size={13} />
+                  Language of the Day
+                </div>
+                <h2 className="text-4xl md:text-5xl font-black mb-2 drop-shadow-sm">{languageOfTheDay.name}</h2>
+                <p className="text-white/85 text-lg mb-2">{languageOfTheDay.shortDescription}</p>
+                <p className="text-white/60 text-sm mb-6">{languageOfTheDay.creator} · {languageOfTheDay.yearCreated}</p>
+                <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+                  <Link href={`/languages/${languageOfTheDay.id}`}>
+                    <div
+                      data-testid="btn-lotd-explore"
+                      className="px-6 py-3 bg-white font-bold rounded-xl text-sm transition-opacity hover:opacity-90"
+                      style={{ color: languageOfTheDay.brandColor }}
+                    >
+                      Explore {languageOfTheDay.name}
+                    </div>
+                  </Link>
+                  <Link href="/quiz">
+                    <div className="px-6 py-3 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-xl text-sm transition-colors">
+                      Take the Quiz instead
+                    </div>
+                  </Link>
+                </div>
+              </div>
+              {/* Right: logo */}
+              <div className="w-36 h-36 md:w-44 md:h-44 bg-white rounded-3xl p-6 shadow-2xl flex items-center justify-center shrink-0">
+                <img
+                  src={languageOfTheDay.logo}
+                  alt={languageOfTheDay.name}
+                  className="w-full h-full object-contain"
+                />
+              </div>
             </div>
           </motion.div>
         </div>

@@ -1,7 +1,8 @@
 import { Link, useLocation } from "wouter";
-import { Code2, Menu, X, BookMarked, Search, ArrowLeftRight } from "lucide-react";
+import { Code2, Menu, X, BookMarked, Search, ArrowLeftRight, Sun, Moon } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useBookmarks } from "@/hooks/useBookmarks";
+import { useTheme } from "@/hooks/useTheme";
 import { motion, AnimatePresence } from "framer-motion";
 import { languages } from "@/data/languages";
 
@@ -11,8 +12,8 @@ export default function Navbar() {
   const [query, setQuery] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
   const { bookmarks } = useBookmarks();
+  const { isDark, toggle: toggleTheme } = useTheme();
   const searchRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const navLinks = [
     { href: "/languages", label: "Languages" },
@@ -60,7 +61,6 @@ export default function Navbar() {
         <div ref={searchRef} className="hidden md:block relative flex-1 max-w-xs">
           <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
           <input
-            ref={inputRef}
             type="text"
             placeholder="Search languages…"
             value={query}
@@ -152,16 +152,45 @@ export default function Navbar() {
             </div>
             Bookmarks
           </Link>
+
+          {/* Dark mode toggle */}
+          <button
+            onClick={toggleTheme}
+            data-testid="btn-theme-toggle"
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={isDark ? "sun" : "moon"}
+                initial={{ rotate: -30, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 30, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {isDark ? <Sun size={17} /> : <Moon size={17} />}
+              </motion.div>
+            </AnimatePresence>
+          </button>
         </nav>
 
-        {/* Mobile Toggle */}
-        <button
-          className="md:hidden p-2 text-slate-600"
-          onClick={() => setIsOpen(!isOpen)}
-          data-testid="btn-mobile-menu"
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile: theme toggle + hamburger */}
+        <div className="md:hidden flex items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            data-testid="btn-theme-toggle-mobile"
+            className="p-2 rounded-xl bg-slate-100 text-slate-600"
+          >
+            {isDark ? <Sun size={17} /> : <Moon size={17} />}
+          </button>
+          <button
+            className="p-2 text-slate-600"
+            onClick={() => setIsOpen(!isOpen)}
+            data-testid="btn-mobile-menu"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Nav */}
@@ -174,7 +203,6 @@ export default function Navbar() {
             className="md:hidden border-t border-slate-100 bg-white overflow-hidden"
           >
             <div className="px-4 py-4 flex flex-col gap-3">
-              {/* Mobile search */}
               <div className="relative">
                 <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
                 <input
