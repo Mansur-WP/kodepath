@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { Globe, Smartphone, Brain, Blocks, Lightbulb, Shield, Server, LayoutTemplate } from "lucide-react";
+import { Globe, Smartphone, Brain, Blocks, Lightbulb, Shield, Server, LayoutTemplate, Lock, Monitor } from "lucide-react";
 import { languages } from "@/data/languages";
 
 const categoryDetails = [
@@ -12,6 +12,8 @@ const categoryDetails = [
   { id: "Data Science", icon: Lightbulb, color: "bg-orange-50 text-orange-600", border: "border-orange-100", hover: "hover:border-orange-300 hover:shadow-orange-500/10", desc: "Analyze massive datasets and visualize information." },
   { id: "Game Dev", icon: Blocks, color: "bg-green-50 text-green-600", border: "border-green-100", hover: "hover:border-green-300 hover:shadow-green-500/10", desc: "Build interactive video games for PC, console, or mobile." },
   { id: "Systems", icon: Shield, color: "bg-slate-100 text-slate-700", border: "border-slate-200", hover: "hover:border-slate-400 hover:shadow-slate-500/10", desc: "Write low-level code for operating systems and hardware." },
+  { id: "Cybersecurity", icon: Lock, color: "bg-red-50 text-red-600", border: "border-red-100", hover: "hover:border-red-300 hover:shadow-red-500/10", desc: "Protect systems and networks from attacks, vulnerabilities, and threats." },
+  { id: "IT", icon: Monitor, color: "bg-teal-50 text-teal-600", border: "border-teal-100", hover: "hover:border-teal-300 hover:shadow-teal-500/10", desc: "Manage infrastructure, automate tasks, and keep systems running." },
 ];
 
 export default function Categories() {

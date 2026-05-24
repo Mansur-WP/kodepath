@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { ArrowRight, Compass, Lightbulb, Globe, Smartphone, Brain, Blocks, Server, LayoutTemplate, Shield, Search, CalendarDays } from "lucide-react";
+import { ArrowRight, Compass, Lightbulb, Globe, Smartphone, Brain, Blocks, Server, LayoutTemplate, Shield, Search, CalendarDays, Lock, Monitor } from "lucide-react";
 import { languages } from "@/data/languages";
 import LanguageCard from "@/components/LanguageCard";
 
@@ -43,6 +43,8 @@ const allCategories = [
   { name: "Data Science", icon: Lightbulb, color: "bg-orange-50 text-orange-600", border: "border-orange-100", hover: "hover:border-orange-300" },
   { name: "Game Dev", icon: Blocks, color: "bg-green-50 text-green-600", border: "border-green-100", hover: "hover:border-green-300" },
   { name: "Systems", icon: Shield, color: "bg-slate-100 text-slate-700", border: "border-slate-200", hover: "hover:border-slate-400" },
+  { name: "Cybersecurity", icon: Lock, color: "bg-red-50 text-red-600", border: "border-red-100", hover: "hover:border-red-300" },
+  { name: "IT", icon: Monitor, color: "bg-teal-50 text-teal-600", border: "border-teal-100", hover: "hover:border-teal-300" },
 ];
 
 export default function Home() {
