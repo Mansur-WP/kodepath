@@ -1,7 +1,9 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
+import { Bookmark } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { Language } from "@/data/languages";
+import { useBookmarks } from "@/hooks/useBookmarks";
 
 interface LanguageCardProps {
   language: Language;
@@ -9,6 +11,9 @@ interface LanguageCardProps {
 }
 
 export default function LanguageCard({ language, index = 0 }: LanguageCardProps) {
+  const { isBookmarked, toggleBookmark } = useBookmarks();
+  const bookmarked = isBookmarked(language.id);
+
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case "Beginner": return "bg-emerald-500/10 text-emerald-600 border-emerald-200";
@@ -23,24 +28,52 @@ export default function LanguageCard({ language, index = 0 }: LanguageCardProps)
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.4 }}
-      whileHover={{ y: -5 }}
-      style={{
-        ["--hover-glow" as string]: language.brandColor + "40",
+      whileHover={{
+        y: -6,
+        boxShadow: `0 16px 40px ${language.brandColor}35`,
       }}
-      className="group flex flex-col h-full bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-6 shadow-sm transition-all duration-300 hover:shadow-[0_8px_30px_var(--hover-glow)] hover:border-slate-300"
+      className="group flex flex-col h-full bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-6 shadow-sm transition-colors duration-300 hover:border-slate-300 relative"
       data-testid={`card-language-${language.id}`}
     >
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 flex items-center justify-center bg-slate-50 rounded-xl p-2.5">
-            <img src={language.logo} alt={`${language.name} logo`} className="w-full h-full object-contain" />
-          </div>
-          <div>
-            <h3 className="text-xl font-bold text-slate-900">{language.name}</h3>
-            <p className="text-xs text-slate-500">{language.creator}, {language.yearCreated}</p>
-          </div>
+      {/* Bookmark button */}
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleBookmark(language.id);
+        }}
+        data-testid={`btn-bookmark-${language.id}`}
+        className="absolute top-4 right-4 z-10 p-1.5 rounded-lg hover:bg-slate-100 transition-colors"
+        aria-label={bookmarked ? "Remove bookmark" : "Bookmark language"}
+      >
+        <Bookmark
+          size={18}
+          className={bookmarked
+            ? "fill-primary text-primary"
+            : "text-slate-300 group-hover:text-slate-400 transition-colors"
+          }
+        />
+      </button>
+
+      <div className="flex items-start gap-4 mb-4 pr-8">
+        <div className="w-12 h-12 flex items-center justify-center bg-slate-50 rounded-xl p-2 shrink-0 border border-slate-100">
+          <img
+            src={language.logo}
+            alt={`${language.name} logo`}
+            className="w-full h-full object-contain"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = "none";
+            }}
+          />
         </div>
-        <Badge variant="outline" className={`font-medium ${getDifficultyColor(language.difficulty)}`}>
+        <div className="min-w-0">
+          <h3 className="text-xl font-bold text-slate-900 truncate">{language.name}</h3>
+          <p className="text-xs text-slate-500">{language.creator}, {language.yearCreated}</p>
+        </div>
+      </div>
+
+      <div className="mb-3">
+        <Badge variant="outline" className={`font-medium text-xs ${getDifficultyColor(language.difficulty)}`}>
           {language.difficulty}
         </Badge>
       </div>
@@ -52,12 +85,12 @@ export default function LanguageCard({ language, index = 0 }: LanguageCardProps)
       <div className="space-y-4">
         <div className="flex flex-wrap gap-2">
           {language.useCases.slice(0, 3).map((useCase) => (
-            <Badge key={useCase} variant="secondary" className="bg-slate-100 text-slate-600 font-normal">
+            <Badge key={useCase} variant="secondary" className="bg-slate-100 text-slate-600 font-normal text-xs">
               {useCase}
             </Badge>
           ))}
           {language.useCases.length > 3 && (
-            <Badge variant="secondary" className="bg-slate-100 text-slate-600 font-normal">
+            <Badge variant="secondary" className="bg-slate-100 text-slate-600 font-normal text-xs">
               +{language.useCases.length - 3}
             </Badge>
           )}
