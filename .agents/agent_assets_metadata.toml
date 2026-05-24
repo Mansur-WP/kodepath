@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "MPCt6PeFBkg3tnvu-ekpG"
+uri = "file://artifacts/kodepath/README.md"
+type = "text"
+title = "KodePath README"
