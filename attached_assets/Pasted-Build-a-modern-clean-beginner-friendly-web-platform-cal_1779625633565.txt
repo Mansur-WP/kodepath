@@ -1,0 +1,92 @@
+Build a modern, clean, beginner-friendly web platform called KodePath 🌱💻
+
+## Tech Stack
+- React + React Router (for navigation)
+- Tailwind CSS (styling)
+- Framer Motion (animations)
+- localStorage (for bookmarks)
+- All language data in a single data.js file (no backend)
+
+## Design
+- Light mode only
+- Colors: white (#ffffff), soft gray (#f8fafc), purple accent (#7c3aed), cyan (#06b6d4), charcoal text (#0f172a)
+- Glassmorphism cards with soft shadows
+- Smooth hover animations with colored glow
+- Rounded corners, clean spacing, Inter font
+- Fully responsive
+
+## Pages
+
+### 1. Homepage
+- Hero: "Discover Your First Programming Language" headline + subtitle + search bar + two CTA buttons ("Explore Languages" and "Take the Quiz")
+- Trending Languages horizontal scroll section
+- Categories section (Web, AI, Mobile, Game Dev, Data Science, Cybersecurity, Backend, Frontend)
+- "Why Learn Programming?" section with icons
+- Daily Coding Tip card
+- Clean footer
+
+### 2. Languages Page
+- Responsive grid of language cards
+- Each card: official logo, name, one-line description, difficulty badge, use case tags, year + creator, "Learn More" button
+- Hover: lift animation + colored glow matching language brand color
+- Search bar + filter by category/difficulty/popularity
+
+### 3. Language Detail Page
+- Logo, name, creator, year
+- Beginner-friendly overview
+- Use cases
+- Syntax example in terminal-style code block
+- Pros and cons
+- Career opportunities
+- Visual beginner roadmap (step-by-step path)
+- Free learning resources
+- Related languages
+- Beginner projects to build
+
+### 4. Quiz Page ("Which Language Should I Learn?")
+- 6 questions about goals and interests
+- Questions like: "What do you want to build?", "How much time per day?", "Logic or visual results?"
+- End result: personalized language recommendation card
+- Options to explore that language or retake quiz
+
+### 5. Bookmarks Page
+- Saved languages from localStorage
+- Empty state with CTA
+
+### 6. Categories Page
+- Cards for: Web Dev, Mobile Dev, AI/ML, Game Dev, Data Science, Cybersecurity, Backend, Frontend
+- Each links to filtered languages list
+
+## Language Data (real data, no placeholders)
+Include these 20 languages with real accurate info:
+Python, JavaScript, TypeScript, Java, C, C++, C#, Kotlin, Swift, Go, Rust, PHP, Ruby, Dart, R, SQL, HTML/CSS, Bash, Lua, Scala
+
+Each language object should include:
+- name, logo (use devicons or simple-icons CDN URL)
+- shortDescription
+- fullDescription (beginner friendly)
+- yearCreated
+- creator
+- difficulty (Beginner / Intermediate / Advanced)
+- categories (array)
+- useCases (array of strings)
+- pros (array)
+- cons (array)
+- syntaxExample (short code snippet)
+- careerOpportunities (array)
+- frameworks (array)
+- relatedLanguages (array)
+- learningRoadmap (array of steps)
+- beginnerProjects (array)
+- freeResources (array of {title, url})
+- brandColor (hex for glow effect)
+
+## Do NOT include
+- No backend, no database
+- No authentication
+- No AI API calls
+- No coding playground
+- No streak tracking or badges
+
+## Goal
+Fast, beautiful, focused platform. Makes beginners feel excited about programming. Clean code, scalable component structure, no lorem ipsum anywhere.
