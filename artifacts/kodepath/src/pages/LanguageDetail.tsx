@@ -2,9 +2,10 @@ import { useParams, Link } from "wouter";
 import { languages } from "@/data/languages";
 import { Badge } from "@/components/ui/badge";
 import { useBookmarks } from "@/hooks/useBookmarks";
-import { BookMarked, Code2, ExternalLink, ThumbsUp, ThumbsDown, GitPullRequest, ArrowLeft } from "lucide-react";
+import { BookMarked, ExternalLink, ThumbsUp, ThumbsDown, GitPullRequest, ArrowLeft, ArrowLeftRight } from "lucide-react";
 import { motion } from "framer-motion";
 import NotFound from "@/pages/not-found";
+import CodeBlock from "@/components/CodeBlock";
 
 export default function LanguageDetail() {
   const { id } = useParams();
@@ -49,15 +50,27 @@ export default function LanguageDetail() {
             <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-slate-900">Overview</h2>
-                <button 
-                  onClick={() => toggleBookmark(language.id)}
-                  className={`p-3 rounded-xl flex items-center gap-2 font-medium transition-all ${
-                    bookmarked ? "bg-primary text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
-                >
-                  <BookMarked size={20} className={bookmarked ? "fill-current" : ""} />
-                  <span className="hidden sm:inline">{bookmarked ? "Saved" : "Save"}</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  <Link href={`/compare?a=${language.id}`}>
+                    <div
+                      data-testid={`btn-compare-${language.id}`}
+                      className="p-3 rounded-xl flex items-center gap-2 font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all"
+                    >
+                      <ArrowLeftRight size={18} />
+                      <span className="hidden sm:inline text-sm">Compare</span>
+                    </div>
+                  </Link>
+                  <button
+                    onClick={() => toggleBookmark(language.id)}
+                    data-testid={`btn-bookmark-detail-${language.id}`}
+                    className={`p-3 rounded-xl flex items-center gap-2 font-medium transition-all ${
+                      bookmarked ? "bg-primary text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                    }`}
+                  >
+                    <BookMarked size={20} className={bookmarked ? "fill-current" : ""} />
+                    <span className="hidden sm:inline text-sm">{bookmarked ? "Saved" : "Save"}</span>
+                  </button>
+                </div>
               </div>
               <p className="text-slate-600 text-lg leading-relaxed mb-8">
                 {language.fullDescription}
@@ -79,23 +92,12 @@ export default function LanguageDetail() {
               </div>
             </div>
 
-            {/* Syntax Block */}
-            <div className="bg-slate-900 rounded-3xl overflow-hidden border border-slate-800 shadow-lg">
-              <div className="bg-slate-800 px-6 py-3 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Code2 size={18} className="text-slate-400" />
-                  <span className="text-sm font-medium text-slate-300">Syntax Example</span>
-                </div>
-                <Badge variant="secondary" className="bg-slate-700 text-slate-300 font-mono text-xs">
-                  {language.syntaxLanguage}
-                </Badge>
-              </div>
-              <div className="p-6 overflow-x-auto">
-                <pre className="text-sm font-mono leading-relaxed text-slate-300">
-                  <code>{language.syntaxExample}</code>
-                </pre>
-              </div>
-            </div>
+            {/* Syntax Block — highlighted */}
+            <CodeBlock
+              code={language.syntaxExample}
+              language={language.syntaxLanguage}
+              label={`${language.name} — Syntax Example`}
+            />
 
             {/* Pros and Cons */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -11,6 +11,7 @@ import LanguageDetail from "@/pages/LanguageDetail";
 import Quiz from "@/pages/Quiz";
 import Bookmarks from "@/pages/Bookmarks";
 import Categories from "@/pages/Categories";
+import Compare from "@/pages/Compare";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ function Router() {
           <Route path="/quiz" component={Quiz} />
           <Route path="/bookmarks" component={Bookmarks} />
           <Route path="/categories" component={Categories} />
+          <Route path="/compare" component={Compare} />
           <Route component={NotFound} />
         </Switch>
       </main>
