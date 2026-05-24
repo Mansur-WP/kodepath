@@ -7,6 +7,26 @@ import LanguageCard from "@/components/LanguageCard";
 // Random pick on every visit/refresh
 const languageOfTheDay = languages[Math.floor(Math.random() * languages.length)];
 
+const codingTips = [
+  "Don't memorize syntax. Learn the concepts. Syntax can be searched, but problem-solving is a skill you practice.",
+  "Write code every day, even if it's just 15 minutes. Consistency beats long, infrequent sessions.",
+  "Read other people's code. It's one of the fastest ways to pick up new patterns and techniques.",
+  "When you're stuck, explain the problem out loud — often you'll find the answer before you finish the sentence.",
+  "Version control is not optional. Commit early, commit often, and write meaningful messages.",
+  "Don't just copy-paste solutions. Understand why the code works before moving on.",
+  "The best debugging tool is a good night's sleep. Fresh eyes catch what tired ones miss.",
+  "Build things you actually want to use. Personal projects you care about teach you far more than tutorials.",
+  "Master one language deeply before jumping to the next. Fundamentals transfer; shallow knowledge doesn't.",
+  "Comments should explain *why*, not *what*. The code already shows what — the why is what future you needs.",
+  "Break every problem into the smallest possible pieces. Solve each piece independently.",
+  "Error messages are your friends. Read them carefully instead of immediately searching for a fix.",
+  "Refactoring is not wasted time — clean code is easier to debug, extend, and hand off.",
+  "Learn to use the debugger, not just console.log. It will save you hours.",
+  "Ship something imperfect. A working v1 teaches you more than a perfect project that never ships.",
+];
+
+const dailyTip = codingTips[Math.floor(Math.random() * codingTips.length)];
+
 const whyLearnItems = [
   { icon: Globe, title: "Endless Opportunities", desc: "Every industry needs developers — from healthcare to entertainment." },
   { icon: Brain, title: "Problem Solving", desc: "Programming sharpens your logical thinking and creativity." },
@@ -246,7 +266,7 @@ export default function Home() {
               <div>
                 <h3 className="text-sm font-bold text-primary tracking-wider uppercase mb-2">Daily Coding Tip</h3>
                 <p className="text-xl md:text-2xl font-medium text-slate-800 leading-snug">
-                  "Don't memorize syntax. Learn the concepts. Syntax can be searched, but problem-solving is a skill you practice."
+                  "{dailyTip}"
                 </p>
               </div>
             </div>
